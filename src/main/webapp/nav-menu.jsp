@@ -9,20 +9,20 @@
 		    <span class="icon-bar"></span>
 		   </button>
 			<a class="navbar-brand" href="${pageContext.request.contextPath}">
-		    	<span><img height="30px" width="30px" alt="Logo" src="${pageContext.request.contextPath}/images/logo.png"><strong>&nbspGerenciador de Estudos</strong></span>
+		    	<span><img height="30px" width="30px" alt="Logo" src="${pageContext.request.contextPath}/images/logo.png"><strong>&nbsp;Gerenciador de Estudos</strong></span>
 		    </a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="${pageContext.request.contextPath}"><span class="glyphicon glyphicon-home" /><strong>&nbspInício</strong></a></li>
-				<li><a href="${pageContext.request.contextPath}/users"><span class="glyphicon glyphicon-user" /><strong>&nbspUsuários</strong></a></li>
-				<li><a href="${pageContext.request.contextPath}/study-tasks"><span class="glyphicon glyphicon-book" /><strong>&nbspEstudos</strong></a></li>
+				<li><a href="${pageContext.request.contextPath}"><span class="glyphicon glyphicon-home"></span><strong>&nbsp;Início</strong></a></li>
+				<li><a href="${pageContext.request.contextPath}/users"><span class="glyphicon glyphicon-user"></span><strong>&nbsp;Usuários</strong></a></li>
+				<li><a href="${pageContext.request.contextPath}/study-tasks"><span class="glyphicon glyphicon-book"></span><strong>&nbsp;Estudos</strong></a></li>
 				<li class="dropdown">
 			        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><strong>Perfil</strong>
 			        <span class="caret"></span></a>
 			        <ul class="dropdown-menu">
-			          <li><a href="#"><span class="glyphicon glyphicon-cog" /></span>&nbspDados cadastrais</a></li>
-			          <li><a href="${pageContext.request.contextPath}/logout"><span class="glyphicon glyphicon-log-out" /></span>&nbspSair</a></li>
+			          <li><a href="#"><span class="glyphicon glyphicon-cog"></span>&nbsp;Dados cadastrais</a></li>
+			          <li><a href="${pageContext.request.contextPath}/logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Sair</a></li>
 			        </ul>
 			    </li>
 			</ul>

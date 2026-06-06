@@ -19,7 +19,7 @@
                         <% } %>
                         <form action="${pageContext.request.contextPath}/login" method="POST">
                             <div class="form-group">
-                                <label for="email">E-mail do Usuário (Ex: emerson@mail.com):</label>
+                                <label for="email">E-mail do Usuário :</label>
                                 <input type="email" class="form-control" name="email" required autofocus>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Acessar</button>

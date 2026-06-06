@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
     <jsp:include page="base-head.jsp" />
-    <title>Sessão de Estudo</title>
+    <title>Atividades</title>
 </head>
 <body>
     <jsp:include page="nav-menu.jsp" />
@@ -19,8 +20,14 @@
             </div>
             
             <div class="form-group">
+                <label>Professor:</label>
+                <input type="text" class="form-control" name="professor" value="${task.professor}" placeholder="Ex: Maicon Sônego" required>
+            </div>
+            
+            <div class="form-group">
                 <label>Data do Estudo:</label>
-                <input type="date" class="form-control" name="studyDate" value="${task.studyDate}" required>
+                <fmt:formatDate value="${task.studyDate}" pattern="yyyy-MM-dd" var="formattedDate" />
+                <input type="date" class="form-control" name="studyDate" value="${formattedDate}" required>
             </div>
             
             <div class="form-group">
@@ -31,9 +38,9 @@
             </div>
             
             <div class="form-group">
-                <label>Usuário:</label>
+                <label>Aluno:</label>
                 <select class="form-control" name="userId" required>
-                    <option value="">Selecione...</option>
+                    <option value="">Selecione o aluno...</option>
                     <c:forEach var="u" items="${users}">
                         <option value="${u.id}" ${u.id == task.user.id ? 'selected' : ''}>${u.name}</option>
                     </c:forEach>
@@ -48,6 +55,7 @@
             <button type="submit" class="btn btn-success">Salvar</button>
             <a href="${pageContext.request.contextPath}/study-tasks" class="btn btn-default">Cancelar</a>
         </form>
+        
     </div>
 </body>
 </html>

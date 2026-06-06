@@ -5,10 +5,11 @@ import java.util.Date;
 public class StudyTask {
     private int id;
     private String subject;
+    private String professor; // <-- NOVO CAMPO
     private Date studyDate;
     private String status;
     private String notes;
-    private User user;
+    private User user; // <-- Este é o Aluno (Utilizador)
 
     public StudyTask() {
         this(0);
@@ -24,6 +25,9 @@ public class StudyTask {
 
     public String getSubject() { return subject; }
     public void setSubject(String subject) { this.subject = subject; }
+
+    public String getProfessor() { return professor; }
+    public void setProfessor(String professor) { this.professor = professor; }
 
     public Date getStudyDate() { return studyDate; }
     public void setStudyDate(Date studyDate) { this.studyDate = studyDate; }

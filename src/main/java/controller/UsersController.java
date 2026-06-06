@@ -22,16 +22,17 @@ public class UsersController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String action = req.getRequestURI();
+		// Usar getServletPath() em vez de getRequestURI()
+		String action = req.getServletPath();
 		
 		switch (action) {
-		case "/crud-manager/user/form": {
+		case "/user/form": {
 			listUsers(req);
 			req.setAttribute("action", "insert");
 			ControllerUtil.forward(req, resp, "/form-user.jsp");
 			break;
 		}
-		case "/crud-manager/user/update": {
+		case "/user/update": {
 			listUsers(req);
 			User user = loadUser(req);
 			req.setAttribute("user", user);
@@ -50,7 +51,8 @@ public class UsersController extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String action = req.getRequestURI();
+		// Usar getServletPath() em vez de getRequestURI()
+		String action = req.getServletPath();
 		
 		if (action == null || action.equals("") ) {
 			ControllerUtil.forward(req, resp, "/index.jsp");
@@ -58,14 +60,14 @@ public class UsersController extends HttpServlet {
 		}
 		
 		switch (action) {
-		case "/crud-manager/user/delete":
+		case "/user/delete":
 			deleteUser(req, resp);
 			break;	
-		case "/crud-manager/user/insert": {
+		case "/user/insert": {
 			insertUser(req, resp);
 			break;
 		}
-		case "/crud-manager/user/update": {
+		case "/user/update": {
 			updateUser(req, resp);
 			break;
 		}
