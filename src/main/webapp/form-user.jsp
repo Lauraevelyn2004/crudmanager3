@@ -9,13 +9,13 @@
 		<%@include file="nav-menu.jsp"%>
 			
 		<div id="container" class="container-fluid">
-			<h3 class="page-header">Adicionar Usuário</h3>
+			<h3 class="page-header">${not empty user ? "Editar Usuário" : "Adicionar Usuário"}</h3>
 
 			<form action="${pageContext.request.contextPath}/user/${action}" method="POST">
 				<input type="hidden" value="${user.getId()}" name="userId">
 				<div class="row">
-					<div class="form-group col-md-4">
-					<label for="name">Nome</label>
+					<div class="form-group col-md-3">
+						<label for="name">Nome</label>
 						<input type="text" class="form-control" id="name" name="name" 
 							   autofocus="autofocus" placeholder="Nome do usuário" 
 							   required oninvalid="this.setCustomValidity('Por favor, informe o nome do usuário.')"
@@ -23,7 +23,7 @@
 							   value="${user.getName()}">
 					</div>
 
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-3">
 						<label for="gender">Sexo</label>
 						<select id="gender" class="form-control selectpicker" name="gender" 
 							    required oninvalid="this.setCustomValidity('Por favor, informe o sexo')"
@@ -34,13 +34,20 @@
 						</select>
 					</div>
 					
-					<div class="form-group col-md-4">
-					<label for="mail">E-mail</label>
+					<div class="form-group col-md-3">
+						<label for="mail">E-mail</label>
 						<input type="email" class="form-control" id="mail" name="mail" 
-							   autofocus="autofocus" placeholder="E-mail do usuário" 
+							   placeholder="E-mail do usuário" 
 							   required oninvalid="this.setCustomValidity('Por favor, informe o email do usuário.')"
 							   oninput="setCustomValidity('')"
 							   value="${user.getEmail()}">
+					</div>
+
+					<div class="form-group col-md-3">
+						<label for="senha">Senha</label>
+						<input type="password" class="form-control" id="senha" name="senha" 
+							   placeholder="${not empty user ? '' : 'Senha do usuário'}" 
+							   ${not empty user ? "" : "required oninvalid=\"this.setCustomValidity('Por favor, informe a senha.')\" oninput=\"setCustomValidity('')\""}>
 					</div>
 				</div>
 				<hr />

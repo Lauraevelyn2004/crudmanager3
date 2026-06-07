@@ -12,6 +12,7 @@ import model.ModelException;
 import model.User;
 import model.dao.DAOFactory;
 import model.dao.UserDAO;
+import utils.PasswordUtil;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
@@ -22,7 +23,6 @@ public class UsersController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// Usar getServletPath() em vez de getRequestURI()
 		String action = req.getServletPath();
 		
 		switch (action) {
@@ -42,16 +42,13 @@ public class UsersController extends HttpServlet {
 		}
 		default:
 			listUsers(req);
-			
 			ControllerUtil.transferSessionMessagesToRequest(req);
-		
 			ControllerUtil.forward(req, resp, "/users.jsp");
 		}
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// Usar getServletPath() em vez de getRequestURI()
 		String action = req.getServletPath();
 		
 		if (action == null || action.equals("") ) {
@@ -81,35 +78,36 @@ public class UsersController extends HttpServlet {
 
 	private User loadUser(HttpServletRequest req) {
 		String userIdParameter = req.getParameter("userId");
-		
 		int userId = Integer.parseInt(userIdParameter);
-		
 		UserDAO dao = DAOFactory.createDAO(UserDAO.class);
 		
 		try {
 			User user = dao.findById(userId);
-			
 			if (user == null)
 				throw new ModelException("Usuário não encontrado para alteração");
-			
 			return user;
 		} catch (ModelException e) {
-			// log no servidor
 			e.printStackTrace();
 			ControllerUtil.errorMessage(req, e.getMessage());
 		}
-		
 		return null;
 	}
 	
 	private void listUsers(HttpServletRequest req) {
 		UserDAO dao = DAOFactory.createDAO(UserDAO.class);
 		
+		// Tenta pegar o que o usuário digitou na barra de pesquisa
+		String searchParam = req.getParameter("search");
+		
 		List<User> users = null;
 		try {
-			users = dao.listAll();
+			// Se foi digitado algo na busca, filtra pelo nome. Se não, lista tudo.
+			if (searchParam != null && !searchParam.trim().isEmpty()) {
+				users = dao.findByName(searchParam);
+			} else {
+				users = dao.listAll();
+			}
 		} catch (ModelException e) {
-			// Log no servidor
 			e.printStackTrace();
 		}
 		
@@ -121,24 +119,23 @@ public class UsersController extends HttpServlet {
 		String userName = req.getParameter("name");
 		String userGender = req.getParameter("gender");
 		String userEMail = req.getParameter("mail");
+		String userSenha = req.getParameter("senha");
 		
 		User user = new User();
 		user.setName(userName);
 		user.setGender(userGender);
 		user.setEmail(userEMail);
+		user.setSenha(PasswordUtil.hashPassword(userSenha));
 		
 		UserDAO dao = DAOFactory.createDAO(UserDAO.class);
 		
 		try {
 			if (dao.save(user)) {
 				ControllerUtil.sucessMessage(req, "Usuário '" + user.getName() + "' salvo com sucesso.");
-			}
-			else {
+			} else {
 				ControllerUtil.errorMessage(req, "Usuário '" + user.getName() + "' não pode ser salvo.");
 			}
-				
 		} catch (ModelException e) {
-			// log no servidor
 			e.printStackTrace();
 			ControllerUtil.errorMessage(req, e.getMessage());
 		}
@@ -148,50 +145,48 @@ public class UsersController extends HttpServlet {
 		String userName = req.getParameter("name");
 		String userGender = req.getParameter("gender");
 		String userEMail = req.getParameter("mail");
+		String userSenha = req.getParameter("senha");
 		
 		User user = loadUser(req);
-		user.setName(userName);
-		user.setGender(userGender);
-		user.setEmail(userEMail);
-		
-		UserDAO dao = DAOFactory.createDAO(UserDAO.class);
-		
-		try {
-			if (dao.update(user)) {
-				ControllerUtil.sucessMessage(req, "Usuário '" + user.getName() + "' atualizado com sucesso.");
+		if (user != null) {
+			user.setName(userName);
+			user.setGender(userGender);
+			user.setEmail(userEMail);
+			
+			if (userSenha != null && !userSenha.trim().isEmpty()) {
+				user.setSenha(PasswordUtil.hashPassword(userSenha));
 			}
-			else {
-				ControllerUtil.errorMessage(req, "Usuário '" + user.getName() + "' não pode ser atualizado.");
+			
+			UserDAO dao = DAOFactory.createDAO(UserDAO.class);
+			try {
+				if (dao.update(user)) {
+					ControllerUtil.sucessMessage(req, "Usuário '" + user.getName() + "' atualizado com sucesso.");
+				} else {
+					ControllerUtil.errorMessage(req, "Usuário '" + user.getName() + "' não pode ser atualizado.");
+				}
+			} catch (ModelException e) {
+				e.printStackTrace();
+				ControllerUtil.errorMessage(req, e.getMessage());
 			}
-				
-		} catch (ModelException e) {
-			// log no servidor
-			e.printStackTrace();
-			ControllerUtil.errorMessage(req, e.getMessage());
 		}
 	}
 	
 	private void deleteUser(HttpServletRequest req, HttpServletResponse resp) {
 		String userIdParameter = req.getParameter("id");
-		
 		int userId = Integer.parseInt(userIdParameter);
-		
 		UserDAO dao = DAOFactory.createDAO(UserDAO.class);
 		
 		try {
 			User user = dao.findById(userId);
-			
 			if (user == null)
 				throw new ModelException("Usuário não encontrado para deleção.");
 			
 			if (dao.delete(user)) {
 				ControllerUtil.sucessMessage(req, "Usuário '" + user.getName() + "' deletado com sucesso.");
-			}
-			else {
+			} else {
 				ControllerUtil.errorMessage(req, "Usuário '" + user.getName() + "' não pode ser deletado. Há dados relacionados ao usuário.");
 			}
 		} catch (ModelException e) {
-			// log no servidor
 			if (e.getCause() instanceof SQLIntegrityConstraintViolationException) {
 				ControllerUtil.errorMessage(req, e.getMessage());
 			}

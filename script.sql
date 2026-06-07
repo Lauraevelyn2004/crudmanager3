@@ -1,4 +1,3 @@
-
 DROP DATABASE IF EXISTS crud_manager;
 
 CREATE DATABASE IF NOT EXISTS crud_manager;
@@ -9,7 +8,8 @@ CREATE TABLE IF NOT EXISTS users(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
     sexo ENUM('M', 'F'),
-    email VARCHAR(150) NOT NULL
+    email VARCHAR(150) NOT NULL,
+    senha VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS posts(
@@ -17,30 +17,7 @@ CREATE TABLE IF NOT EXISTS posts(
     content TEXT NOT NULL,
     post_date DATE NOT NULL,
     user_id INT NOT NULL,
-    FOREIGN KEY(user_id) 
-    REFERENCES users(id)
-);
-
-CREATE TABLE IF NOT EXISTS companies (
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`name` VARCHAR(128) NOT NULL,
-	`role` VARCHAR(128) NOT NULL,
-	`start` DATE NOT NULL,
-	`end` DATE,
-	user_id INT NOT NULL,
-	FOREIGN KEY(user_id)
-	REFERENCES users(id)
-);
-
-CREATE TABLE IF NOT EXISTS companies (
-id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-`name` VARCHAR(128) NOT NULL,
-`role` VARCHAR(128) NOT NULL,
-`start` DATE NOT NULL,
-`end` DATE,
-user_id INT NOT NULL,
-FOREIGN KEY(user_id)
-REFERENCES users(id)
+    FOREIGN KEY(user_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS study_tasks (
@@ -55,21 +32,11 @@ CREATE TABLE IF NOT EXISTS study_tasks (
 );
 
 INSERT INTO users VALUES
-(DEFAULT, "Amanda Dias Alves Ferreira", "F", "Amanda@mail.com"),
-(DEFAULT, "Joice de Araujo Alves", "F", "joice@mail.com"),
-(DEFAULT, "Brian Gustavo Martins Silva", "M", "brian@mail.com"),
-(DEFAULT, "Melissa Graciano Ferreira", "F", "melissa@mail.com"),
-(DEFAULT, "Augusto Mezavila Caixeta Moreira", "F", "augusto@mail.com");
-
-INSERT INTO posts VALUES
-(DEFAULT, "Olá do Emerson", CURDATE(), 1),
-(DEFAULT, "Olá da Luiza", CURDATE(), 2),
-(DEFAULT, "Olá da Denise", CURDATE(), 3),
-(DEFAULT, "Olá do Noé", CURDATE(), 4),
-(DEFAULT, "Olá da Rosânia", CURDATE(), 5),
-(DEFAULT, "Olá da Rosânia 1", CURDATE(), 5),
-(DEFAULT, "Olá da Rosânia 2", CURDATE(), 5),
-(DEFAULT, "Olá da Rosânia 3", CURDATE(), 5);
+(DEFAULT, "Amanda Dias Alves Ferreira", "F", "amanda@mail.com", SHA2('1234', 256)),
+(DEFAULT, "Joice de Araujo Alves", "F", "joice@mail.com", SHA2('1234', 256)),
+(DEFAULT, "Brian Gustavo Martins Silva", "M", "brian@mail.com", SHA2('1234', 256)),
+(DEFAULT, "Melissa Graciano Ferreira", "F", "melissa@mail.com", SHA2('1234', 256)),
+(DEFAULT, "Augusto Mezavila Caixeta Moreira", "M", "augusto@mail.com", SHA2('1234', 256));
 
 INSERT INTO study_tasks
 (subject, study_date, status, notes, professor, user_id)

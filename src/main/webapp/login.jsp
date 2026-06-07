@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <jsp:include page="base-head.jsp" />
     <title>Login - CRUD Manager</title>
@@ -19,8 +19,12 @@
                         <% } %>
                         <form action="${pageContext.request.contextPath}/login" method="POST">
                             <div class="form-group">
-                                <label for="email">E-mail do Usuário :</label>
-                                <input type="email" class="form-control" name="email" required autofocus>
+                                <label for="email">E-mail do Usuário:</label>
+                                <input type="email" class="form-control" name="email" required autofocus placeholder="Digite o seu e-mail">
+                            </div>
+                            <div class="form-group">
+                                <label for="senha">Senha:</label>
+                                <input type="password" class="form-control" name="senha" required placeholder="Digite a sua senha">
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Acessar</button>
                         </form>

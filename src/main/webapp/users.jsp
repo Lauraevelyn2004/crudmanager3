@@ -21,18 +21,20 @@
 			    </div>
 			 
 			    <div class="col-md-6">
-			        <div class="input-group h2">
-			            <input name="data[search]" class="form-control" id="search" type="text" placeholder="Pesquisar usuários">
-			            <span class="input-group-btn">
-			                <button class="btn btn-danger" type="submit">
-			                    <span class="glyphicon glyphicon-search"></span>
-			                </button>
-			            </span>
-			        </div>
+			    	<form action="${pageContext.request.contextPath}/users" method="GET">
+				        <div class="input-group h2">
+				            <input name="search" value="${param.search}" class="form-control" id="search" type="text" placeholder="Pesquisar usuários">
+				            <span class="input-group-btn">
+				                <button class="btn btn-danger" type="submit">
+				                    <span class="glyphicon glyphicon-search"></span>
+				                </button>
+				            </span>
+				        </div>
+			        </form>
 			    </div>
 			 
 			    <div class="col-md-3">
-			        <a href="/crud-manager/user/form" class="btn btn-danger pull-right h2"><span class="glyphicon glyphicon-plus" /></span>&nbspAdicionar Usuário</a>
+			        <a href="${pageContext.request.contextPath}/user/form" class="btn btn-danger pull-right h2"><span class="glyphicon glyphicon-plus" /></span>&nbsp;Adicionar Usuário</a>
 			    </div>
 	     	</div>
 	 
@@ -50,7 +52,7 @@
 			                    <th>Excluir</th>
 			                 </tr>
 			            </thead>
-			            <tbody>
+			             <tbody>
 			            	<c:forEach var="user" items="${users}">
 								<tr>
 				                    <td>${user.getName()}</td>
@@ -73,7 +75,6 @@
 							</c:forEach>
 			            </tbody>
 			         </table>
-			 
 			     </div>
 	     	</div>
 	 
@@ -85,8 +86,7 @@
 			            <li><a href="#">2</a></li>
 			            <li><a href="#">3</a></li>
 			            <li class="next"><a href="#" rel="next">Próximo &gt;</a></li>
-			        </ul><!-- /.pagination -->
-			    </div>
+			        </ul></div>
 	     	</div>
 		</div>
 		
@@ -106,7 +106,7 @@
 		            var userId = $(this).attr('user-id');
 		            $(".modal-body #hiddenValue").text("o usuário '"+userName+"'");
 		            $("#id").attr( "value", userId);
-		            $("#form").attr( "action","user/delete");
+		            $("#form").attr( "action","${pageContext.request.contextPath}/user/delete");
 		        })
 			});
 		</script>

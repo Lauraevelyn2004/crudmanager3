@@ -5,6 +5,7 @@ public class User {
 	private String name;
 	private String gender;
 	private String email;
+	private String senha; 
 	
 	public User() {
 		this(0);
@@ -15,6 +16,15 @@ public class User {
 		setName("");
 		setGender("");
 		setEmail("");
+		setSenha("");
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public String getName() {
